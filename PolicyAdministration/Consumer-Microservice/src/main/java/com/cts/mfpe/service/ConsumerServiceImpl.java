@@ -25,18 +25,21 @@ public class ConsumerServiceImpl implements ConsumerService {
 	@Override
 	public ConsumerDetails saveConsumer(ConsumerDetails consumerDetails) {
 		// TODO Auto-generated method stub
-		BusinessDetails business = consumerDetails.getBusiness();
-		Long businessValue = calBusinessValue(business.getBusinessturnover(), business.getCapitalinvested());
-		System.out.println(businessValue);
-		business.setBusinessvalue(businessValue);
+		List<BusinessDetails> business = consumerDetails.getBusiness();
+		for (BusinessDetails b : business) {
+			Long businessValue = calBusinessValue(b.getBusinessturnover(), b.getCapitalinvested());
+			System.out.println(businessValue);
+			b.setBusinessvalue(businessValue);
+		}
 		consumerDetails.setBusiness(business);
 		ConsumerDetails con = consumerRepository.save(consumerDetails);
 
 		return con;
 	}
-	
+
+	@Override
 	public Long calBusinessValue(Long businessturnover, Long capitalinvested) {
-		
+
 		Double x_max = (double) businessturnover;
 		Double x_min = (double) capitalinvested;
 		Double x_ratio = x_max / x_min;
@@ -72,19 +75,21 @@ public class ConsumerServiceImpl implements ConsumerService {
 	@Override
 	public Boolean checkEligibility(ConsumerDetails consumerDetails) throws Exception {
 		// TODO Auto-generated method stub
-		Boolean check = false;
+		Boolean check=false;
 
-		BusinessDetails businessDetails = consumerDetails.getBusiness();
+		List<BusinessDetails> businessDetails = consumerDetails.getBusiness();
 
-		BusinessMaster businessMaster = businessMasterRepository.findByBusinesscategoryAndBusinesstype(
-				businessDetails.getBusinesscategory(), businessDetails.getBusinesstype());
-		if (businessMaster == null) {
-			return check;
-		}
+		for (BusinessDetails b : businessDetails) {
+			BusinessMaster businessMaster = businessMasterRepository
+					.findByBusinesscategoryAndBusinesstype(b.getBusinesscategory(), b.getBusinesstype());
+			if (businessMaster == null) {
+				check =false;
+			}
 
-		if (businessMaster.getTotalemployees() <= businessDetails.getTotalemployees()
-				|| businessMaster.getBusinessage() <= businessDetails.getBusinessage()) {
-			check = true;
+			if (businessMaster.getTotalemployees() <= b.getTotalemployees()
+					|| businessMaster.getBusinessage() <= b.getBusinessage()) {
+				check = true;
+			}
 		}
 		return check;
 	}

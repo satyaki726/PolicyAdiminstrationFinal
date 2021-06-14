@@ -1,5 +1,6 @@
 package com.cts.mfpe.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.cts.mfpe.exception.AuthorizationException;
 import com.cts.mfpe.exception.ConsumerNotFoundException;
 import com.cts.mfpe.exception.NotEligibleException;
 import com.cts.mfpe.feign.AuthClient;
+import com.cts.mfpe.model.BusinessDetails;
 import com.cts.mfpe.model.ConsumerDetails;
 import com.cts.mfpe.service.ConsumerService;
 
@@ -52,6 +54,8 @@ public class ConsumerController {
 			throws ConsumerNotFoundException, AuthorizationException {
 		if (authClient.authorizeTheRequest(requestTokenHeader)) {
 			ConsumerDetails consumer = consumerService.findConsumerById(consumer_id);
+			List<BusinessDetails> businessDetails = consumer.getBusiness();
+			
 			consumer.setAgentid(consumerDetails.getAgentid());
 			consumer.setAgentname(consumerDetails.getAgentname());
 			consumer.setDob(consumerDetails.getDob());
@@ -59,7 +63,19 @@ public class ConsumerController {
 			consumer.setName(consumerDetails.getName());
 			consumer.setPandetails(consumerDetails.getPandetails());
 			consumer.setPhone(consumerDetails.getPhone());
-
+			
+			List<BusinessDetails> business = consumerDetails.getBusiness();
+			List<BusinessDetails> b2 = new ArrayList<>();
+			for(int i=0;i<business.size();i++) {
+				BusinessDetails b = business.get(i);
+				BusinessDetails b1 = businessDetails.get(i);
+				Long businessVal = consumerService.calBusinessValue(b.getBusinessturnover(),b.getCapitalinvested());
+				b.setBusinessvalue(businessVal);
+				b.setId(b1.getId());
+				b2.add(b);
+			}
+			
+			consumer.setBusiness(b2);
 			ConsumerDetails con = consumerService.saveConsumer(consumer);
 
 			return new ResponseEntity<ConsumerDetails>(con, HttpStatus.OK);
