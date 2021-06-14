@@ -57,7 +57,7 @@ public class Business {
 	@Column(name = "Business_Age")
 	private Long businessage;
 	
-	private List<Property> properties;
+//	private List<Property> properties;
 	
 	
 }

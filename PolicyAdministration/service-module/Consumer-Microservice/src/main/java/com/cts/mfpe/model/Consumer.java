@@ -72,7 +72,10 @@ public class Consumer {
 	@Column(name = "Agent_ID")
 	private Long agentid;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="business", unique=true)
-	private List<Business> business;
+	/*
+	 * @OneToOne(cascade = CascadeType.ALL)
+	 * 
+	 * @JoinColumn(name="business", unique=true)
+	 */
+//	private List<Business> business;
 }
