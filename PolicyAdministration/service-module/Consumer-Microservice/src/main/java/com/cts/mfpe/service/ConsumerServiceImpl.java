@@ -1,5 +1,6 @@
 package com.cts.mfpe.service;
 
+import java.util.Collections;
 import java.util.List;
 //import java.util.Optional;
 
@@ -7,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cts.mfpe.exception.ConsumerNotFoundException;
-import com.cts.mfpe.model.BusinessDetails;
+import com.cts.mfpe.model.Business;
 import com.cts.mfpe.model.BusinessMaster;
-import com.cts.mfpe.model.ConsumerDetails;
+import com.cts.mfpe.model.Consumer;
 import com.cts.mfpe.repository.BusinessMasterRepository;
 import com.cts.mfpe.repository.ConsumerRepository;
 
@@ -23,16 +24,17 @@ public class ConsumerServiceImpl implements ConsumerService {
 	BusinessMasterRepository businessMasterRepository;
 
 	@Override
-	public ConsumerDetails saveConsumer(ConsumerDetails consumerDetails) {
+	public Consumer saveConsumer(Consumer Consumer) {
 		// TODO Auto-generated method stub
-		BusinessDetails business = consumerDetails.getBusiness();
-		Long businessValue = calBusinessValue(business.getBusinessturnover(), business.getCapitalinvested());
-		System.out.println(businessValue);
-		business.setBusinessvalue(businessValue);
-		consumerDetails.setBusiness(business);
-		ConsumerDetails con = consumerRepository.save(consumerDetails);
+		/*
+		 * Business business = Consumer.getBusiness(); Long businessValue =
+		 * calBusinessValue(business.getBusinessturnover(),
+		 * business.getCapitalinvested()); System.out.println(businessValue);
+		 * business.setBusinessvalue(businessValue); Consumer.setBusiness(business);
+		 * Consumer con = consumerRepository.save(Consumer);
+		 */
 
-		return con;
+		return null;
 	}
 	
 	public Long calBusinessValue(Long businessturnover, Long capitalinvested) {
@@ -55,26 +57,26 @@ public class ConsumerServiceImpl implements ConsumerService {
 	}
 
 	@Override
-	public ConsumerDetails findConsumerById(Long cid) throws ConsumerNotFoundException {
+	public Consumer findConsumerById(Long cid) throws ConsumerNotFoundException {
 		// TODO Auto-generated method stub
-		ConsumerDetails con = consumerRepository.findById(cid)
+		Consumer con = consumerRepository.findById(cid)
 				.orElseThrow(() -> new ConsumerNotFoundException("Consumer not found"));
 		return con;
 	}
 
 	@Override
-	public List<ConsumerDetails> findAllConsumers() {
+	public List<Consumer> findAllConsumers() {
 		// TODO Auto-generated method stub
-		List<ConsumerDetails> con = consumerRepository.findAll();
+		List<Consumer> con = consumerRepository.findAll();
 		return con;
 	}
 
 	@Override
-	public Boolean checkEligibility(ConsumerDetails consumerDetails) throws Exception {
+	public Boolean checkEligibility(Consumer Consumer) throws Exception {
 		// TODO Auto-generated method stub
 		Boolean check = false;
 
-		BusinessDetails businessDetails = consumerDetails.getBusiness();
+		Business businessDetails = (Business) Collections.singletonList(Consumer.getBusiness()).get(0);
 
 		BusinessMaster businessMaster = businessMasterRepository.findByBusinesscategoryAndBusinesstype(
 				businessDetails.getBusinesscategory(), businessDetails.getBusinesstype());

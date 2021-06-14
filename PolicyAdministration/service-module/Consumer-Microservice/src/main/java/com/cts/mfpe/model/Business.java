@@ -1,9 +1,9 @@
 package com.cts.mfpe.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -22,7 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BusinessDetails {
+public class Business {
 	@Id
 	@Column(name ="ID")
 	private Long id;
@@ -56,4 +56,8 @@ public class BusinessDetails {
 	@NotNull
 	@Column(name = "Business_Age")
 	private Long businessage;
+	
+	private List<Property> properties;
+	
+	
 }

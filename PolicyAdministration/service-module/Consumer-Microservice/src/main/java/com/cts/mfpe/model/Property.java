@@ -22,7 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PropertyDetails {
+public class Property {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

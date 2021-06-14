@@ -4,17 +4,17 @@ import java.util.List;
 
 import com.cts.mfpe.exception.BusinessMasterNotFoundException;
 import com.cts.mfpe.exception.ConsumerNotFoundException;
-import com.cts.mfpe.model.ConsumerDetails;
+import com.cts.mfpe.model.Consumer;
 
 public interface ConsumerService {
 	
-	ConsumerDetails saveConsumer(ConsumerDetails consumerDetails);
+	Consumer saveConsumer(Consumer Consumer);
 
 	void deleteConsumer(Long cid);
 
-	ConsumerDetails findConsumerById(Long cid) throws ConsumerNotFoundException;
+	Consumer findConsumerById(Long cid) throws ConsumerNotFoundException;
 
-	List<ConsumerDetails> findAllConsumers();
+	List<Consumer> findAllConsumers();
 
-	Boolean checkEligibility(ConsumerDetails consumerDetails) throws Exception;
+	Boolean checkEligibility(Consumer Consumer) throws Exception;
 }

@@ -31,7 +31,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConsumerDetails {
+public class Consumer {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -74,5 +74,5 @@ public class ConsumerDetails {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="business", unique=true)
-	private BusinessDetails business;
+	private List<Business> business;
 }
