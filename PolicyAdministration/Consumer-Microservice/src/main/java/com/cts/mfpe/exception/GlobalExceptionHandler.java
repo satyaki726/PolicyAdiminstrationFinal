@@ -29,6 +29,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(exceptionDetail, HttpStatus.NOT_FOUND);
 	}
 	
+	@ExceptionHandler(NotEligibleException.class)
+	public ResponseEntity<ExceptionDetails> handleNotEligibleException(NotEligibleException ex){
+		ExceptionDetails exceptionDetail = new ExceptionDetails(LocalDateTime.now(), HttpStatus.NOT_FOUND, ex.getMessage());
+		log.error(ex.getMessage());
+		return new ResponseEntity<>(exceptionDetail, HttpStatus.FORBIDDEN);
+	}
+	
+	@ExceptionHandler(BusinessMasterNotFoundException.class)
+	public ResponseEntity<ExceptionDetails> handleBusinessMasterNotFoundException(BusinessMasterNotFoundException ex){
+		ExceptionDetails exceptionDetail = new ExceptionDetails(LocalDateTime.now(), HttpStatus.NOT_FOUND, ex.getMessage());
+		log.error(ex.getMessage());
+		return new ResponseEntity<>(exceptionDetail, HttpStatus.FORBIDDEN);
+	}
+	
 	@ExceptionHandler(MissingRequestHeaderException.class)
 	public ResponseEntity<ExceptionDetails> handleMissingRequestHeaderException(MissingRequestHeaderException ex){
 		ExceptionDetails exceptionDetail = new ExceptionDetails(LocalDateTime.now(), HttpStatus.BAD_REQUEST, ex.getMessage());

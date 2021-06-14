@@ -2,12 +2,14 @@ package com.cts.authorization;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
-public class AuthorizatiionMicroserviceApplication {
+@EnableEurekaClient
+public class AuthorizationMicroserviceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AuthorizatiionMicroserviceApplication.class, args);
+		SpringApplication.run(AuthorizationMicroserviceApplication.class, args);
 	}
 
 }

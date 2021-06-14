@@ -16,13 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cts.mfpe.exception.AuthorizationException;
 import com.cts.mfpe.exception.ConsumerNotFoundException;
+import com.cts.mfpe.exception.NotEligibleException;
 import com.cts.mfpe.feign.AuthClient;
 import com.cts.mfpe.model.ConsumerDetails;
 import com.cts.mfpe.service.ConsumerService;
 
 @RestController
 public class ConsumerController {
-
+	
 	@Autowired
 	private ConsumerService consumerService;
 
@@ -32,8 +33,11 @@ public class ConsumerController {
 	@PostMapping("/consumers")
 	public ResponseEntity<ConsumerDetails> createConsumer(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
-			@RequestBody ConsumerDetails consumerDetails) throws AuthorizationException {
+			@RequestBody ConsumerDetails consumerDetails) throws Exception {
 		if (authClient.authorizeTheRequest(requestTokenHeader)) {
+			if(!consumerService.checkEligibility(consumerDetails)) {
+				throw new NotEligibleException("Not Eligible");
+			}
 			ConsumerDetails consumer = consumerService.saveConsumer(consumerDetails);
 			return new ResponseEntity<ConsumerDetails>(consumer, HttpStatus.CREATED);
 		} else {
