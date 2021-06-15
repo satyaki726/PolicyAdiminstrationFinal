@@ -22,15 +22,18 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.cts.exception.PolicyException;
 
-
+@EnableWebMvc
 @ControllerAdvice
-public class ExceptionHandlers   {
+public class ExceptionHandlers extends ResponseEntityExceptionHandler  {
 	
 	@ExceptionHandler(value = PolicyException.class)
 	public ResponseEntity<Object> exception(PolicyException exception) {
+		System.out.println("hi");
 		return new ResponseHandlers().handleExceptions(exception);
 	}
 

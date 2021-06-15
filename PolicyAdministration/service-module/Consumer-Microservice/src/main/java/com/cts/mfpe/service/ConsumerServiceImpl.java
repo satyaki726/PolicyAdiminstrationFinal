@@ -32,8 +32,8 @@ public class ConsumerServiceImpl implements ConsumerService {
 		 * business.setBusinessvalue(businessValue); Consumer.setBusiness(business);
 		 * Consumer con = consumerRepository.save(Consumer);
 		 */
-
-		return null;
+		Consumer con = consumerRepository.save(Consumer);
+		return con;
 	}
 	
 	public Long calBusinessValue(Long businessturnover, Long capitalinvested) {
@@ -75,18 +75,19 @@ public class ConsumerServiceImpl implements ConsumerService {
 		// TODO Auto-generated method stub
 		Boolean check = false;
 
-		Business businessDetails = (Business) Collections.singletonList(Consumer.getBusiness()).get(0);
-
-		BusinessMaster businessMaster = businessMasterRepository.findByBusinesscategoryAndBusinesstype(
-				businessDetails.getBusinesscategory(), businessDetails.getBusinesstype());
-		if (businessMaster == null) {
-			return check;
-		}
-
-		if (businessMaster.getTotalemployees() <= businessDetails.getTotalemployees()
-				|| businessMaster.getBusinessage() <= businessDetails.getBusinessage()) {
-			check = true;
-		}
+		/*
+		 * Business businessDetails = (Business)
+		 * Collections.singletonList(Consumer.getBusiness()).get(0);
+		 * 
+		 * BusinessMaster businessMaster =
+		 * businessMasterRepository.findByBusinesscategoryAndBusinesstype(
+		 * businessDetails.getBusinesscategory(), businessDetails.getBusinesstype()); if
+		 * (businessMaster == null) { return check; }
+		 * 
+		 * if (businessMaster.getTotalemployees() <= businessDetails.getTotalemployees()
+		 * || businessMaster.getBusinessage() <= businessDetails.getBusinessage()) {
+		 * check = true; }
+		 */
 		return check;
 	}
 
