@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cts.handlers.ResponseHandlers;
 import com.cts.mfpe.exception.AuthorizationException;
 import com.cts.mfpe.exception.ConsumerNotFoundException;
 import com.cts.mfpe.exception.NotEligibleException;
@@ -38,8 +39,8 @@ public class ConsumerController {
 			if(!consumerService.checkEligibility(Consumer)) {
 				throw new NotEligibleException("Not Eligible");
 			}
-			Consumer consumer = consumerService.saveConsumer(Consumer);
-			return new ResponseEntity<Consumer>(consumer, HttpStatus.CREATED);
+			Consumer consumer = consumerService.saveConsumer(Consumer); 
+			return new ResponseHandlers<Consumer>().defaultResponse(consumer, "Consumer Added Successfully.", HttpStatus.CREATED);
 		} else {
 			throw new AuthorizationException("Not allowed");
 		}
