@@ -1,0 +1,5 @@
+package com.cts.mfpe.repository;
+
+public interface PropertyMaster {
+
+}

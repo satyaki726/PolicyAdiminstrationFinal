@@ -1,0 +1,12 @@
+package com.cts.mfpe.repository;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.cts.mfpe.exception.BusinessMasterNotFoundException;
+import com.cts.mfpe.model.BusinessMaster;
+
+public interface BusinessMasterRepository extends JpaRepository<BusinessMaster,Long> {
+	Optional<BusinessMaster> findByBusinesscategoryAndBusinesstype(String businesscategory, String businesstype) throws BusinessMasterNotFoundException;
+}

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cts.authorization.config.JwtTokenUtil;
-import com.cts.authorization.exception.AuthorizationException;
+import com.cts.common.exception.AuthorizationException;
 import com.cts.authorization.model.JwtRequest;
 import com.cts.authorization.model.JwtResponse;
 import com.cts.authorization.service.JwtUserDetailsService;

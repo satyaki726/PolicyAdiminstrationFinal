@@ -6,12 +6,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cts.mfpe.exception.ConsumerNotFoundException;
+import com.cts.common.exception.ConsumerNotFoundException;
 import com.cts.mfpe.model.BusinessDetails;
 import com.cts.mfpe.model.BusinessMaster;
 import com.cts.mfpe.model.ConsumerDetails;
+import com.cts.mfpe.model.PropertyDetails;
+import com.cts.mfpe.model.PropertyMaster;
 import com.cts.mfpe.repository.BusinessMasterRepository;
 import com.cts.mfpe.repository.ConsumerRepository;
+import com.cts.mfpe.repository.PropertyMasterRepository;
 
 @Service
 public class ConsumerServiceImpl implements ConsumerService {
@@ -22,6 +25,9 @@ public class ConsumerServiceImpl implements ConsumerService {
 	@Autowired
 	BusinessMasterRepository businessMasterRepository;
 
+	@Autowired
+	PropertyMasterRepository propertyMasterRepository;
+
 	@Override
 	public ConsumerDetails saveConsumer(ConsumerDetails consumerDetails) {
 		// TODO Auto-generated method stub
@@ -30,6 +36,13 @@ public class ConsumerServiceImpl implements ConsumerService {
 			Long businessValue = calBusinessValue(b.getBusinessturnover(), b.getCapitalinvested());
 			System.out.println(businessValue);
 			b.setBusinessvalue(businessValue);
+			List<PropertyDetails> property = b.getProperty();
+			for (PropertyDetails p : property) {
+				Long propertyValue = calPropertyValue(p.getCostoftheasset(), p.getSalvagevalue(),
+						p.getUsefullifeoftheAsset());
+				p.setPropertyvalue(propertyValue);
+			}
+			b.setProperty(property);
 		}
 		consumerDetails.setBusiness(business);
 		ConsumerDetails con = consumerRepository.save(consumerDetails);
@@ -75,7 +88,7 @@ public class ConsumerServiceImpl implements ConsumerService {
 	@Override
 	public Boolean checkEligibility(ConsumerDetails consumerDetails) throws Exception {
 		// TODO Auto-generated method stub
-		Boolean check=false;
+		Boolean check = false;
 
 		List<BusinessDetails> businessDetails = consumerDetails.getBusiness();
 
@@ -83,15 +96,44 @@ public class ConsumerServiceImpl implements ConsumerService {
 			BusinessMaster businessMaster = businessMasterRepository
 					.findByBusinesscategoryAndBusinesstype(b.getBusinesscategory(), b.getBusinesstype());
 			if (businessMaster == null) {
-				check =false;
+				check = false;
 			}
 
 			if (businessMaster.getTotalemployees() <= b.getTotalemployees()
 					|| businessMaster.getBusinessage() <= b.getBusinessage()) {
-				check = true;
+				
+				List<PropertyDetails> propertyDetails = b.getProperty();
+				for (PropertyDetails p : propertyDetails) {
+					PropertyMaster propertyMaster = propertyMasterRepository
+							.findByBuildingtypeAndPropertytype(p.getBuildingtype(), p.getPropertytype());
+					if(propertyMaster == null) {
+						check =false;
+					}
+					check = true;
+				}
 			}
 		}
 		return check;
+	}
+
+	@Override
+	public Long calPropertyValue(Long costoftheasset, Long salvagevalue, Long usefullifeoftheAsset) {
+
+		Double x_ratio = (double) ((costoftheasset - salvagevalue) / usefullifeoftheAsset);
+
+		Double Range_min = 0.00;
+		Double Range_max = 10.00;
+		Double x_max = (double) (costoftheasset / usefullifeoftheAsset);
+
+		Double x_min = (double) (salvagevalue / usefullifeoftheAsset);
+
+		Double range_diff = (Range_max - Range_min);
+
+		Double sat = ((x_ratio - x_min) / (x_max - x_min));
+
+		Double propertyvalue = range_diff * sat;
+
+		return (long) Math.abs(Math.round(propertyvalue));
 	}
 
 }

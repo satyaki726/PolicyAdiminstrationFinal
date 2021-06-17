@@ -25,7 +25,7 @@ import lombok.Setter;
 public class PropertyDetails {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID")
 	private Long id;
 	
@@ -33,11 +33,6 @@ public class PropertyDetails {
 	@Size(max = 30)
 	@Column(name = "Property_Type")
 	private String propertytype;
-	
-	@NotBlank
-	@Size(max = 30)
-	@Column(name = "Insurance_Type")
-	private String insurancetype;
 
 	@NotBlank
 	@Size(max = 30)
@@ -61,6 +56,14 @@ public class PropertyDetails {
 	@NotNull
 	@Column(name = "Property_Value")
 	private Long propertyvalue;
+	
+	@NotNull
+	@Column(name = "Cost_of_the_asset")
+	private Long costoftheasset;
+	
+	@NotNull
+	@Column(name = "Useful_Life_of_the_Asset")
+	private Long usefullifeoftheAsset;
 
 	@NotNull
 	@Column(name = "Salvage_value")

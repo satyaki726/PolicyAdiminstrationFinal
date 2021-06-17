@@ -2,7 +2,7 @@ package com.cts.mfpe.service;
 
 import java.util.List;
 
-import com.cts.mfpe.exception.ConsumerNotFoundException;
+import com.cts.common.exception.ConsumerNotFoundException;
 import com.cts.mfpe.model.ConsumerDetails;
 
 public interface ConsumerService {
@@ -18,4 +18,6 @@ public interface ConsumerService {
 	Boolean checkEligibility(ConsumerDetails consumerDetails) throws Exception;
 	
 	public Long calBusinessValue(Long businessturnover, Long capitalinvested);
+	
+	public Long calPropertyValue(Long costoftheasset, Long salvagevalue, Long usefullifeoftheAsset);
 }

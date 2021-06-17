@@ -1,10 +1,16 @@
 package com.cts.mfpe.model;
 
+import java.util.List;
+
+import javax.annotation.Generated;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -24,6 +30,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class BusinessDetails {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name ="ID")
 	private Long id;
 	
@@ -56,4 +63,8 @@ public class BusinessDetails {
 	@NotNull
 	@Column(name = "Business_Age")
 	private Long businessage;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "business_id")
+	private List<PropertyDetails> property;
 }

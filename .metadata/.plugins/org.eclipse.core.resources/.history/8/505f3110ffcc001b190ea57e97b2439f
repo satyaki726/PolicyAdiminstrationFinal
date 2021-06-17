@@ -1,0 +1,11 @@
+package com.cts.mfpe.exception;
+
+public class NotEligibleException {
+	
+	private static final long serialVersionUID = 2349955133581253785L;
+
+	public NotEligibleException(String message) {
+
+			super(message);
+		}
+}
