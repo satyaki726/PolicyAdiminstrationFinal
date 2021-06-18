@@ -28,7 +28,7 @@ import com.cts.mfpe.service.ConsumerService;
 
 @RestController
 public class ConsumerController {
-	
+
 	@Autowired
 	private ConsumerService consumerService;
 
@@ -40,11 +40,12 @@ public class ConsumerController {
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
 			@RequestBody ConsumerDetails consumerDetails) throws Exception {
 		if (authClient.authorizeTheRequest(requestTokenHeader)) {
-			if(!consumerService.checkEligibility(consumerDetails)) {
+			if (!consumerService.checkEligibility(consumerDetails)) {
 				throw new NotEligibleException("Not Eligible");
 			}
 			ConsumerDetails consumer = consumerService.saveConsumer(consumerDetails);
-			return new ResponseHandlers<ConsumerDetails>().defaultResponse(consumer,"Consumer Added", HttpStatus.CREATED);
+			return new ResponseHandlers<ConsumerDetails>().defaultResponse(consumer, "Consumer Added",
+					HttpStatus.CREATED);
 		} else {
 			throw new AuthorizationException("Not allowed");
 		}
@@ -57,8 +58,7 @@ public class ConsumerController {
 			throws ConsumerNotFoundException, AuthorizationException {
 		if (authClient.authorizeTheRequest(requestTokenHeader)) {
 			ConsumerDetails consumer = consumerService.findConsumerById(consumer_id);
-			
-			
+
 			consumer.setAgentid(consumerDetails.getAgentid());
 			consumer.setAgentname(consumerDetails.getAgentname());
 			consumer.setDob(consumerDetails.getDob());
@@ -66,34 +66,35 @@ public class ConsumerController {
 			consumer.setName(consumerDetails.getName());
 			consumer.setPandetails(consumerDetails.getPandetails());
 			consumer.setPhone(consumerDetails.getPhone());
-			
+
 			List<BusinessDetails> businessDetails = consumer.getBusiness();
 			List<BusinessDetails> business = consumerDetails.getBusiness();
 			List<BusinessDetails> b2 = new ArrayList<>();
-			for(int i=0;i<business.size();i++) {
+			for (int i = 0; i < business.size(); i++) {
 				BusinessDetails b1 = businessDetails.get(i);
 				BusinessDetails b = business.get(i);
-				Long businessVal = consumerService.calBusinessValue(b.getBusinessturnover(),b.getCapitalinvested());
+				Long businessVal = consumerService.calBusinessValue(b.getBusinessturnover(), b.getCapitalinvested());
 				b.setBusinessvalue(businessVal);
 				b.setId(b1.getId());
-				List<PropertyDetails> propertyDetails= b1.getProperty();
+				List<PropertyDetails> propertyDetails = b1.getProperty();
 				List<PropertyDetails> property = b.getProperty();
 				List<PropertyDetails> p2 = new ArrayList<>();
-				for(int j=0;j<property.size();j++) {
+				for (int j = 0; j < property.size(); j++) {
 					PropertyDetails p1 = propertyDetails.get(j);
 					PropertyDetails p = property.get(j);
-					Long propertyVal = consumerService.calPropertyValue(p.getCostoftheasset(),p.getSalvagevalue(),p.getUsefullifeoftheAsset());
+					Long propertyVal = consumerService.calPropertyValue(p.getCostoftheasset(), p.getSalvagevalue(),
+							p.getUsefullifeoftheAsset());
 					p.setPropertyvalue(propertyVal);
 					p.setId(p1.getId());
 					p2.add(p);
 				}
 				b2.add(b);
 			}
-			
+
 			consumer.setBusiness(b2);
 			ConsumerDetails con = consumerService.saveConsumer(consumer);
 
-			return new ResponseHandlers<ConsumerDetails>().defaultResponse(con,"Consumer Updtaed", HttpStatus.OK);
+			return new ResponseHandlers<ConsumerDetails>().defaultResponse(con, "Consumer Updtaed", HttpStatus.OK);
 		} else {
 			throw new AuthorizationException("Not allowed");
 		}
@@ -113,20 +114,26 @@ public class ConsumerController {
 	}
 
 	@GetMapping("/getconsumers/{cid}")
-	public ConsumerDetails viewConsumer(@PathVariable Long cid) throws ConsumerNotFoundException{
-		
+	public ConsumerDetails viewConsumer(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader, @PathVariable Long cid)
+			throws ConsumerNotFoundException, AuthorizationException {
+		if (authClient.authorizeTheRequest(requestTokenHeader)) {
 			ConsumerDetails con = consumerService.findConsumerById(cid);
 			return con;
-		
+		}else {
+			throw new AuthorizationException("Not allowed");
+		}
+
 	}
 
 	@GetMapping("/getallconsumers")
 	public List<ConsumerDetails> viewAllConsumer(
-			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader)throws AuthorizationException {
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader)
+			throws AuthorizationException {
 		if (authClient.authorizeTheRequest(requestTokenHeader)) {
 			List<ConsumerDetails> list = consumerService.findAllConsumers();
 			return list;
-		}else {
+		} else {
 			throw new AuthorizationException("Not allowed");
 		}
 	}

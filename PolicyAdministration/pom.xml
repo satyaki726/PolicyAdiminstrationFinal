@@ -119,5 +119,6 @@
     <module>QuotesMicroservice</module>
     <module>Policy-Microservice</module>
     <module>Common-Module</module>
+    <module>Insureity-Portal</module>
   </modules>
 </project>
