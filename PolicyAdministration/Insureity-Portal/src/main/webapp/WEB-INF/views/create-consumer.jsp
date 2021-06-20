@@ -28,21 +28,22 @@
 </head>
 <body>
 	<div class="main-container-register">
+		<%@ include file="fragments/header.jsp"%>
 		<div class="section grid">
-			<%@ include file="navbar.jsp"%>
+			<%@ include file="admin-fragments/admin-sidebar.jsp"%>
 			<div class="content list-container">
-				<h1>Find In-patient Services</h1>
+				<h1>Create Consumer</h1>
 				<div class="container">
-					<form:form action="addSpecialist" method="POST"
-						modelAttribute="specialistDetails">
+					<form:form action="consumers" method="POST"
+						modelAttribute="consumerRequest">
 						<div class="form-group">
-							<form:label path="name">Enter Consumer's Name:</form:label>
+							<form:label path="name">Enter the Name:</form:label>
 							<form:input path="name" class="form-control" id="name"
 								required="required" />
 						</div>
 						<div class="form-group">
 							<form:label path="dob">Enter DOB:</form:label>
-							<form:select path="dob" class="form-control" id="dob"
+							<form:input path="dob" class="form-control" id="dob"
 								required="required" />
 						</div>
 						<div class="form-group">
@@ -56,103 +57,95 @@
 								required="required" />
 						</div>
 						<div class="form-group">
-							<form:label path="phone">Enter the Phone No:</form:label>
+							<form:label path="phone">Enter the phone number:</form:label>
 							<form:input path="phone" class="form-control" id="phone"
 								required="required" />
 						</div>
 						<div class="form-group">
-							<form:label path="agentname">Enter the Agent Name:</form:label>
+							<form:label path="agentname">Enter the agent name:</form:label>
 							<form:input path="agentname" class="form-control" id="agentname"
 								required="required" />
 						</div>
 						<div class="form-group">
-							<form:label path="agentid">Enter the Agent ID:</form:label>
+							<form:label path="agentid">Enter the agent id:</form:label>
 							<form:input path="agentid" class="form-control" id="agentid"
 								required="required" />
 						</div>
-						<c:forEach items="${consumerDetails.business}" var="business">
-							<table>
-								<tr>
-									<th>Name</th>
-									<td><input type="text" value="${business.name}" /></td>
-								</tr>
-								<tr>
-									<th>Business Category</th>
-									<td><input type="text"
-										value="${business.businesscategory}" /></td>
-								</tr>
-								<tr>
-									<th>Business Type</th>
-									<td><input type="text" value="${business.businesstype}" /></td>
-								</tr>
-								<tr>
-									<th>Business Turnover</th>
-									<td><input type="text"
-										value="${business.businessturnover}" /></td>
-								</tr>
-								<tr>
-									<th>Capital Invested</th>
-									<td><input type="text" value="${business.capitalinvested}" /></td>
-								</tr>
-								<tr>
-									<th>Total Employees</th>
-									<td><input type="text" value="${business.totalemployees}" /></td>
-								</tr>
-								<tr>
-									<th>Business Value</th>
-									<td><input type="text" value="${business.businessvalue}" /></td>
-								</tr>
-								<tr>
-									<th>Business Age</th>
-									<td><input type="text" value="${business.businessage}" /></td>
-								</tr>
-								<c:forEach items="${business.property}" var="property">
-									<table>
-										<tr>
-											<th>Property Type</th>
-											<td><input type="text" value="${property.propertytype}" /></td>
-										</tr>
-										<tr>
-											<th>Building_Sqft</th>
-											<td><input type="text" value="${property.buildingsqft}" /></td>
-										</tr>
-										<tr>
-											<th>Building_Type</th>
-											<td><input type="text" value="${property.buildingtype}" /></td>
-										</tr>
-										<tr>
-											<th>Building_Storeys</th>
-											<td><input type="text" value="${property.buildingsqft}" /></td>
-										</tr>
-										<tr>
-											<th>Building_Age</th>
-											<td><input type="text" value="${property.buildingage}" /></td>
-										</tr>
-										<tr>
-											<th>Property_Value</th>
-											<td><input type="text" value="${property.propertyvalue}" /></td>
-										</tr>
-										<tr>
-											<th>Cost_of_the_asset</th>
-											<td><input type="text" value="${property.costoftheasset}" /></td>
-										</tr>
-										<tr>
-											<th>Useful_Life_of_the_Asset</th>
-											<td><input type="text" value="${property.usefullifeoftheAsset}" /></td>
-										</tr>
-										<tr>
-											<th>Salvage_value</th>
-											<td><input type="text" value="${property.salvagevalue}" /></td>
-										</tr>
-									</table>
-								</c:forEach>
-							</table>
-							<hr />
-						</c:forEach>
+						<div class="form-group">
+							<form:label path="businesscategory">Enter the Business Category:</form:label>
+							<form:input path="businesscategory" class="form-control"
+								id="businesscategory" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="businesstype">Enter the Business Type:</form:label>
+							<form:input path="businesstype" class="form-control"
+								id="businesstype" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="businessturnover">Enter the Business Turnover:</form:label>
+							<form:input path="businessturnover" class="form-control"
+								id="businessturnover" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="capitalinvested">Enter the Capital Invested:</form:label>
+							<form:input path="capitalinvested" class="form-control"
+								id="capitalinvested" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="totalemployees">Enter the Total Employees:</form:label>
+							<form:input path="totalemployees" class="form-control"
+								id="totalemployees" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="businessage">Enter the Business Age:</form:label>
+							<form:input path="businessage" class="form-control"
+								id="businessage" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="propertytype">Enter the Property Type:</form:label>
+							<form:input path="propertytype" class="form-control"
+								id="propertytype" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="buildingsqft">Enter the Building Sqft:</form:label>
+							<form:input path="buildingsqft" class="form-control"
+								id="buildingsqft" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="buildingtype">Enter the Building Type:</form:label>
+							<form:input path="buildingtype" class="form-control"
+								id="buildingtype" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="buildingstoreys">Enter the Building Storeys:</form:label>
+							<form:input path="buildingstoreys" class="form-control"
+								id="buildingstoreys" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="buildingage">Enter the Building Age:</form:label>
+							<form:input path="buildingage" class="form-control"
+								id="buildingage" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="costoftheasset">Enter the Cost of the asset:</form:label>
+							<form:input path="costoftheasset" class="form-control"
+								id="costoftheasset" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="usefullifeoftheAsset">Enter the Useful life of the Asset:</form:label>
+							<form:input path="usefullifeoftheAsset" class="form-control"
+								id="usefullifeoftheAsset" required="required" />
+						</div>
+						<div class="form-group">
+							<form:label path="salvagevalue">Enter the Salvage Value:</form:label>
+							<form:input path="salvagevalue" class="form-control"
+								id="salvagevalue" required="required" />
+						</div>
 						<form:button class="btn">Create</form:button>
 					</form:form>
-					<h1>${message}</h1>
+					<h1>${success}</h1>
 				</div>
+
 			</div>
 		</div>
 	</div>

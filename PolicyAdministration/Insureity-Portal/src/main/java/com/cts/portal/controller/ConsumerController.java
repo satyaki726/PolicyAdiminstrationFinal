@@ -1,10 +1,13 @@
 package com.cts.portal.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cts.portal.feign.Consumerclient;
 import com.cts.portal.model.ConsumerDetails;
+import com.cts.portal.model.ConsumerRequest;
+import com.cts.portal.service.InsureityService;
 
 @Controller
 @RequestMapping("/policy")
@@ -20,8 +25,16 @@ public class ConsumerController {
 	@Autowired
 	private Consumerclient client;
 
+	@Autowired
+	private InsureityService insureityService;
+
+	@GetMapping("/consumers")
+	public String showView(@ModelAttribute("consumerRequest") ConsumerRequest consumerRequest, BindingResult result) {
+		return "create-consumer";
+	}
+
 	@PostMapping("/consumers")
-	public ModelAndView createConsumer(@ModelAttribute("consumerDetails") ConsumerDetails consumerDetails,
+	public ModelAndView createConsumer(@ModelAttribute("consumerRequest") ConsumerRequest consumerRequest,
 			BindingResult result, HttpServletRequest request) throws Exception {
 
 		if ((String) request.getSession().getAttribute("Authorization") == null) {
@@ -32,9 +45,10 @@ public class ConsumerController {
 
 		ModelAndView model = new ModelAndView("create-consumer");
 
-		if (consumerDetails != null) {
+		if (consumerRequest != null) {
 			try {
-				client.createConsumer((String) request.getSession().getAttribute("Authorization"), consumerDetails);
+				ConsumerDetails con = insureityService.getConsumerDetails(consumerRequest);
+				client.createConsumer((String) request.getSession().getAttribute("Authorization"), con);
 				model.addObject("success", "Consumer added successfully!!");
 
 			} catch (Exception e) {
@@ -47,9 +61,8 @@ public class ConsumerController {
 		return model;
 	}
 
-	@PostMapping(value = "/consumers")
-	public ModelAndView updateConsumers(@ModelAttribute("consumerDetails") ConsumerDetails consumerDetails, BindingResult result,
-			HttpServletRequest request) throws Exception {
+	@GetMapping("/getallconsumers")
+	public ModelAndView getAllConsumer(HttpServletRequest request) throws Exception {
 
 		if ((String) request.getSession().getAttribute("Authorization") == null) {
 
@@ -57,17 +70,19 @@ public class ConsumerController {
 			return login;
 		}
 
-		ModelAndView model = new ModelAndView("updated-consumer");
+		ModelAndView model = new ModelAndView("view-consumer");
+
 		try {
-			client.updateConsumer((String) request.getSession().getAttribute("Authorization"),consumerDetails.getId(), consumerDetails);
-			model.addObject("success","Consumer Details Updated Successfully!!");
-		}catch(Exception e) {
-			ModelAndView error = new ModelAndView("error-page");
-			error.addObject("error","Enter The Details Properly");
+			List<ConsumerDetails> list = client.viewAllConsumer((String) request.getSession().getAttribute("Authorization"));
+			model.addObject("list", list);
+
+		} catch (Exception e) {
+			ModelAndView error = new ModelAndView("error-401");
+			error.addObject("error", "List is empty");
 			return error;
 		}
-		
-		
+
 		return model;
 	}
+
 }

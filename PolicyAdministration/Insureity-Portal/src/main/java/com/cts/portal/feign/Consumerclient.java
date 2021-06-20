@@ -17,7 +17,7 @@ import com.cts.common.exception.ConsumerNotFoundException;
 import com.cts.common.model.ServiceResponse;
 import com.cts.portal.model.ConsumerDetails;
 
-@FeignClient("Consumer-Microservice")
+@FeignClient(name="CONSUMER-MICROSERVICE",url="http://localhost:8100/consumerservice")
 public interface Consumerclient {
 	
 	@PostMapping("/consumers")

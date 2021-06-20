@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>Insureity-Portal</artifactId>
-	<packaging>war</packaging>
+
 
 	<name>Insureity-Portal</name>
 	<!-- FIXME change it to the project's website -->

@@ -10,7 +10,7 @@ import com.cts.common.exception.AuthorizationException;
 import com.cts.portal.model.JwtRequest;
 
 
-@FeignClient("Authorization-Microservices")
+@FeignClient("AUTHORIZATIION-MICROSERVICE")
 public interface AuthClient {
 	
 	@PostMapping(value = "/auth/authenticate")

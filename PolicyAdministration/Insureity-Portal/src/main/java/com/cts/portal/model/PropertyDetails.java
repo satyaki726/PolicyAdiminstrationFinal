@@ -18,7 +18,7 @@ public class PropertyDetails {
 	private String buildingtype;
 	private String buildingstoreys;
 	private Long buildingage;
-	private Long propertyvalue;
+	private Long propertyvalue; 
 	private Long costoftheasset;
 	private Long usefullifeoftheAsset;
 	private Long salvagevalue;
