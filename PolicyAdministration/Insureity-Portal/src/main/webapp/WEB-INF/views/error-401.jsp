@@ -12,7 +12,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <body>
-<%@ include file="navbar.jsp"%>
+<%@ include file="fragments/header.jsp"%>
 <div class="container pt-5">
 	<h1 class="text-center text-danger">401 ERROR ${error }</h1>
 </div>

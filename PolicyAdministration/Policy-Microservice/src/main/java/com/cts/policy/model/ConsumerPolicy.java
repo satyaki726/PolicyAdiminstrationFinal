@@ -29,10 +29,8 @@ public class ConsumerPolicy {
 	@Column(name ="ID")
 	private Long id;
 	
-	@NotBlank
-	@Size(max = 20)
-	@Column(name = "Policy_ID")
-	private String pid;
+	@Column(name="Policy_ID")
+	private Long pid;
 	
 	@NotBlank
 	@Size(max = 30)

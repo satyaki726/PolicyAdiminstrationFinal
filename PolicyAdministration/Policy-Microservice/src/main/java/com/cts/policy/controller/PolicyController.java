@@ -49,7 +49,7 @@ public class PolicyController {
 	}
 
 	@PostMapping("/issuePolicy")
-	public ResponseEntity<ConsumerDetails> issuePolicy(
+	public ConsumerDetails issuePolicy(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
 			@RequestBody ConsumerPolicyRequest consumerPolicyRequest) throws Exception {
 
@@ -60,14 +60,16 @@ public class PolicyController {
 				throw new NotEligibleException("Not Eligible");
 			}
 			ConsumerDetails con = policyService.issuePolicy(consumerDetails);
-			return new ResponseEntity<ConsumerDetails>(con, HttpStatus.OK);
+			return con;
 		} else {
 			throw new AuthorizationException("Not allowed");
 		}
 	}
 	
 	@GetMapping("/viewPolicy/{cid}/{pid}")
-	public List<ConsumerPolicy> viewPolicyCon(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable Long cid, @PathVariable Long pid) throws ConsumerNotFoundException, AuthorizationException, PolicyNotFoundException {
+	public List<ConsumerPolicy> viewPolicyCon(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader, @PathVariable Long cid,
+			@PathVariable Long pid) throws ConsumerNotFoundException, AuthorizationException, PolicyNotFoundException {
 		
 		if(authClient.authorizeTheRequest(requestTokenHeader)) {
 			List<ConsumerPolicy> policyDetails = policyService.viewPolicy(cid,pid);

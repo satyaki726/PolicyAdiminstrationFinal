@@ -55,8 +55,11 @@ public class ConsumerController {
 	public ResponseEntity<ServiceResponse<ConsumerDetails>> updateConsumer(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
 			@PathVariable Long consumer_id, @RequestBody ConsumerDetails consumerDetails)
-			throws ConsumerNotFoundException, AuthorizationException {
+			throws NotEligibleException, Exception {
 		if (authClient.authorizeTheRequest(requestTokenHeader)) {
+			if (!consumerService.checkEligibility(consumerDetails)) {
+				throw new NotEligibleException("Not Eligible");
+			}
 			ConsumerDetails consumer = consumerService.findConsumerById(consumer_id);
 
 			consumer.setAgentid(consumerDetails.getAgentid());

@@ -67,11 +67,11 @@ public class PolicyServiceImpl implements PolicyService {
 						p.getPropertytype());
 				ConsumerPolicy consumerPolicy = new ConsumerPolicy();
 				consumerPolicy.setAcceptedquote(quotes);
+				consumerPolicy.setPid(policyMaster.getId());
 				consumerPolicy.setAssured_sum(policyMaster.getAssured_sum());
 				consumerPolicy.setBase_location(policyMaster.getBase_location());
 				consumerPolicy.setBusinessValue(policyMaster.getBusinessValue());
 				consumerPolicy.setConsumer_type(policyMaster.getConsumer_type());
-				consumerPolicy.setPid(policyMaster.getPid());
 				consumerPolicy.setProperty_type(policyMaster.getProperty_type());
 				consumerPolicy.setPropertyValue(policyMaster.getPropertyValue());
 				consumerPolicy.setTenure(policyMaster.getTenure());

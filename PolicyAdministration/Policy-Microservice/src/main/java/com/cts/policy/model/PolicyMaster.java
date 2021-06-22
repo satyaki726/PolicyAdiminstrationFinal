@@ -28,10 +28,6 @@ public class PolicyMaster {
 	@Column(name ="ID")
 	private Long id;
 	
-	@NotBlank
-	@Size(max = 20)
-	@Column(name = "Policy_ID")
-	private String pid;
 	
 	@NotBlank
 	@Size(max = 30)

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.cts.common.exception.AuthorizationException;
 import com.cts.common.exception.ConsumerNotFoundException;
+import com.cts.common.exception.NotEligibleException;
 import com.cts.common.model.ServiceResponse;
 import com.cts.portal.model.ConsumerDetails;
 
@@ -29,7 +30,7 @@ public interface Consumerclient {
 	public ResponseEntity<ServiceResponse<ConsumerDetails>> updateConsumer(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
 			@PathVariable Long consumer_id, @RequestBody ConsumerDetails consumerDetails)
-			throws ConsumerNotFoundException, AuthorizationException;
+			throws NotEligibleException,Exception;
 	
 	@DeleteMapping("/consumers/{cid}")
 	public ResponseEntity<ConsumerDetails> deleteConsumer(

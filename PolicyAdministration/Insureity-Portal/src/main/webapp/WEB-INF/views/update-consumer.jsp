@@ -32,10 +32,15 @@
 		<div class="section grid">
 			<%@ include file="admin-fragments/admin-sidebar.jsp"%>
 			<div class="content list-container">
-				<h1>Create Consumer</h1>
+				<h1>Update Consumer</h1>
 				<div class="container">
-					<form:form action="consumers" method="POST"
-						modelAttribute="consumerRequest">
+					<form:form action="updateConsumers" method="POST"
+						modelAttribute="updateConsumer">
+						<div class="form-group">
+							<form:label path="id">Enter the Id:</form:label>
+							<form:input path="id" class="form-control" id="id"
+								required="required" />
+						</div>
 						<div class="form-group">
 							<form:label path="name">Enter the Name:</form:label>
 							<form:input path="name" class="form-control" id="name"
@@ -142,7 +147,7 @@
 							<form:input path="salvagevalue" class="form-control"
 								id="salvagevalue" required="required" />
 						</div>
-						<form:button class="btn">Create</form:button>
+						<form:button class="btn">Update</form:button>
 					</form:form>
 					<h1>${success}</h1>
 				</div>

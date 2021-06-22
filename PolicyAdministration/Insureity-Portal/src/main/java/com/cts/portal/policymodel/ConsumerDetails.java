@@ -1,7 +1,6 @@
-package com.cts.portal.model;
+package com.cts.portal.policymodel;
 
 import java.util.List;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,9 +14,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ConsumerDetails {
 
+
 	private Long id;
 	private String name;
-	private String dob;      
+	private String dob;
 	private String pandetails;
 	private String email;
 	private String phone;
@@ -25,3 +25,4 @@ public class ConsumerDetails {
 	private Long agentid;
 	private List<BusinessDetails> business;
 }
+

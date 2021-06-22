@@ -9,6 +9,7 @@ import com.cts.portal.model.BusinessDetails;
 import com.cts.portal.model.ConsumerDetails;
 import com.cts.portal.model.ConsumerRequest;
 import com.cts.portal.model.PropertyDetails;
+import com.cts.portal.model.UpdateConsumer;
 
 @Service
 public class InsureityServiceImpl implements InsureityService {
@@ -44,6 +45,48 @@ public class InsureityServiceImpl implements InsureityService {
 		por.setCostoftheasset(consumerRequest.getCostoftheasset());
 		por.setUsefullifeoftheAsset(consumerRequest.getUsefullifeoftheAsset());
 		por.setSalvagevalue(consumerRequest.getSalvagevalue());
+		
+		list.add(por);
+		bon.setProperty(list);
+		
+		list1.add(bon);
+		con.setBusiness(list1);
+		
+		return con;
+	}
+
+	@Override
+	public ConsumerDetails updateConsumerDetails(UpdateConsumer updateConsumer) {
+		// TODO Auto-generated method stub
+		ConsumerDetails con = new ConsumerDetails();
+		con.setId(updateConsumer.getId());
+		con.setAgentid(updateConsumer.getAgentid());
+		con.setAgentname(updateConsumer.getAgentname());
+		con.setDob(updateConsumer.getDob());
+		con.setEmail(updateConsumer.getEmail());
+		con.setPandetails(updateConsumer.getPandetails());
+		con.setPhone(updateConsumer.getPhone());
+		con.setName(updateConsumer.getName());
+		
+		List<BusinessDetails> list1 = new ArrayList<>();
+		BusinessDetails bon = new BusinessDetails();
+		bon.setBusinessage(updateConsumer.getBusinessage());
+		bon.setBusinesscategory(updateConsumer.getBusinesscategory());
+		bon.setBusinessturnover(updateConsumer.getBusinessturnover());
+		bon.setBusinesstype(updateConsumer.getBusinesstype());
+		bon.setCapitalinvested(updateConsumer.getCapitalinvested());
+		bon.setTotalemployees(updateConsumer.getTotalemployees());
+
+		List<PropertyDetails> list = new ArrayList<>(); 
+		PropertyDetails por = new PropertyDetails();
+		por.setPropertytype(updateConsumer.getPropertytype());
+		por.setBuildingsqft(updateConsumer.getBuildingsqft());
+		por.setBuildingtype(updateConsumer.getBuildingtype());
+		por.setBuildingstoreys(updateConsumer.getBuildingstoreys());
+		por.setBuildingage(updateConsumer.getBuildingage());
+		por.setCostoftheasset(updateConsumer.getCostoftheasset());
+		por.setUsefullifeoftheAsset(updateConsumer.getUsefullifeoftheAsset());
+		por.setSalvagevalue(updateConsumer.getSalvagevalue());
 		
 		list.add(por);
 		bon.setProperty(list);
